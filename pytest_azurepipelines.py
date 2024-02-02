@@ -161,7 +161,7 @@ def pytest_sessionfinish(session, exitstatus):
             )
         )
 
-    if not session.config.getoption("no_coverage_upload") and and session.config.pluginmanager.has_plugin("pytest_cov"):
+    if not session.config.getoption("no_coverage_upload") and session.config.pluginmanager.has_plugin("pytest_cov"):
         covpath = os.path.normpath(
             os.path.abspath(os.path.expanduser(os.path.expandvars(session.config.option.cov_report["xml"])))
         )
