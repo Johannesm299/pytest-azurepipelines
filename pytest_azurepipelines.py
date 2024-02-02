@@ -143,14 +143,16 @@ def pytest_sessionfinish(session, exitstatus):
     # Set the run title in the UI to a configurable setting
     description = session.config.option.azure_run_title.replace("'", "")
 
-    if not session.config.getoption("no_docker_discovery"):
-        print(
-            "##vso[results.publish type={2};runTitle='{1}';publishRunAttachments=true;]{0}".format(
-                xmlabspath, description, mode
-            )
+    #At the moment this makes it impossible to use this plugin in containerjobs, as --no-docker-discovery is needed in order for the report_dir Path not to be overwritten by the mapped host path, which is not available in the container
+    #TODO: add mechanism to support container jobs
+    #if not session.config.getoption("no_docker_discovery"):
+    print(
+        "##vso[results.publish type={2};runTitle='{1}';publishRunAttachments=true;]{0}".format(
+            xmlabspath, description, mode
         )
-    else:
-        print("Skipping uploading of test results because --no-docker-discovery set.")
+    )
+    #else:
+     #   print("Skipping uploading of test results because --no-docker-discovery set.")
 
     if exitstatus != 0 and session.testsfailed > 0 and not session.shouldfail:
         print(
